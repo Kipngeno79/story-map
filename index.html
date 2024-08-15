@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cape Town to Magadan</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <style>
+    #map {
+      height: 600px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Cape Town to Magadan</h1>
+  <div id="map"></div>
+  
+  <script>
+    // Initialize the map centered on Cape Town
+    var map = L.map('map').setView([-33.9249, 18.4241], 3); // Cape Town
+
+    // Add a tile layer (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Define custom locations along the longest walkable route with fun facts
+    var customLocations = [
+      {
+        location: [-33.9249, 18.4241], // Cape Town, South Africa
+        popupContent: "<b>Cape Town:</b><br>The starting point of the longest walkable route.<br>Fun Fact: Cape Town is known for its stunning Table Mountain.<br><img src='images/cape_town.jpg' alt='Cape Town' width='200'/>"
+      },
+      {
+        location: [-1.2833, 36.8167], // Nairobi, Kenya
+        popupContent: "<b>Nairobi:</b><br>The capital city of Kenya and a major hub in East Africa.<br>Fun Fact: Nairobi is home to a national park with wildlife including lions and giraffes.<br><img src='images/nairobi.jpg' alt='Nairobi' width='200'/>"
+      },
+      {
+        location: [3.8480, 11.5021], // Yaoundé, Cameroon
+        popupContent: "<b>Yaoundé:</b><br>The capital city of Cameroon, known for its hills and green landscapes.<br>Fun Fact: Yaoundé is often called the 'City of Seven Hills'.<br><img src='images/yaounde.jpg' alt='Yaoundé' width='200'/>"
+      },
+      {
+        location: [30.0444, 31.2357], // Cairo, Egypt
+        popupContent: "<b>Cairo:</b><br>The capital of Egypt and the largest city in the Arab world.<br>Fun Fact: Cairo is home to the iconic pyramids of Giza.<br><img src='images/cairo.jpg' alt='Cairo' width='200'/>"
+      },
+      {
+        location: [41.0082, 28.9784], // Istanbul, Turkey
+        popupContent: "<b>Istanbul:</b><br>The city that straddles Europe and Asia across the Bosphorus Strait.<br>Fun Fact: Istanbul is the only city in the world located on two continents.<br><img src='images/istanbul.jpg' alt='Istanbul' width='200'/>"
+      },
+      {
+        location: [55.7558, 37.6173], // Moscow, Russia
+        popupContent: "<b>Moscow:</b><br>The capital city of Russia, known for its historical architecture.<br>Fun Fact: Moscow's Kremlin is a UNESCO World Heritage Site.<br><img src='images/moscow.jpg' alt='Moscow' width='200'/>"
+      },
+      {
+        location: [59.5614, 150.8035], // Magadan, Russia
+        popupContent: "<b>Magadan:</b><br>The endpoint of the longest walkable route.<br>Fun Fact: Magadan is known for its harsh winters and remote location.<br><img src='images/magadan.jpg' alt='Magadan' width='200'/>"
+      }
+    ];
+
+    // Loop through the custom locations and add them to the map
+    customLocations.forEach(function(point) {
+      L.marker(point.location)
+        .addTo(map)
+        .bindPopup(point.popupContent);
+    });
+
+    // Add the route from Cape Town to Magadan using GeoJSON
+    var route = {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [18.4241, -33.9249], // Cape Town
+          [36.8167, -1.2833],  // Nairobi
+          [11.5021, 3.8480],   // Yaoundé
+          [31.2357, 30.0444],  // Cairo
+          [28.9784, 41.0082],  // Istanbul
+          [37.6173, 55.7558],  // Moscow
+          [150.8035, 59.5614]  // Magadan
+        ]
+      }
+    };
+
+    // Add the route to the map
+    L.geoJSON(route, {
+      style: {
+        color: "red", // Set route color to red
+        weight: 4,
+        opacity: 0.8
+      }
+    }).addTo(map);
+  </script>
+</body>
+</html>
